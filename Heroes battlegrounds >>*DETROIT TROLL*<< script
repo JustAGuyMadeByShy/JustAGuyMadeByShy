@@ -1,0 +1,476 @@
+local ScreenGui = Instance.new("ScreenGui")
+local KeyFrame = Instance.new("Frame")
+local KeyTitle = Instance.new("TextLabel")
+local KeyTextBox = Instance.new("TextBox")
+local KeyButton = Instance.new("TextButton")
+local KeyCredits = Instance.new("TextLabel")
+local KeyLinkButton = Instance.new("TextButton")
+
+ScreenGui.Name = "DetroitTrollGui"
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+KeyFrame.Name = "KeyFrame"
+KeyFrame.Parent = ScreenGui
+KeyFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+KeyFrame.BorderSizePixel = 0
+KeyFrame.Position = UDim2.new(0.5, -125, 0.5, -80)
+KeyFrame.Size = UDim2.new(0, 250, 0, 160)
+KeyFrame.Active = true
+KeyFrame.Draggable = true
+
+KeyTitle.Name = "KeyTitle"
+KeyTitle.Parent = KeyFrame
+KeyTitle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+KeyTitle.BorderSizePixel = 0
+KeyTitle.Position = UDim2.new(0, 0, 0, 0)
+KeyTitle.Size = UDim2.new(1, 0, 0, 25)
+KeyTitle.Font = Enum.Font.SourceSansBold
+KeyTitle.Text = "Enter Key"
+KeyTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyTitle.TextSize = 18
+
+KeyTextBox.Name = "KeyTextBox"
+KeyTextBox.Parent = KeyFrame
+KeyTextBox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+KeyTextBox.BorderSizePixel = 0
+KeyTextBox.Position = UDim2.new(0.1, 0, 0.25, 0)
+KeyTextBox.Size = UDim2.new(0.8, 0, 0, 25)
+KeyTextBox.Font = Enum.Font.SourceSans
+KeyTextBox.PlaceholderText = "Enter your key"
+KeyTextBox.Text = ""
+KeyTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyTextBox.TextSize = 14
+
+KeyButton.Name = "KeyButton"
+KeyButton.Parent = KeyFrame
+KeyButton.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+KeyButton.BorderSizePixel = 0
+KeyButton.Position = UDim2.new(0.25, 0, 0.5, 0)
+KeyButton.Size = UDim2.new(0.5, 0, 0, 30)
+KeyButton.Font = Enum.Font.SourceSansBold
+KeyButton.Text = "Submit"
+KeyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyButton.TextSize = 16
+
+KeyLinkButton.Name = "KeyLinkButton"
+KeyLinkButton.Parent = KeyFrame
+KeyLinkButton.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
+KeyLinkButton.BorderSizePixel = 0
+KeyLinkButton.Position = UDim2.new(0.25, 0, 0.75, 0)
+KeyLinkButton.Size = UDim2.new(0.5, 0, 0, 20)
+KeyLinkButton.Font = Enum.Font.SourceSans
+KeyLinkButton.Text = "Get Key from Telegram"
+KeyLinkButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyLinkButton.TextSize = 12
+
+KeyCredits.Name = "KeyCredits"
+KeyCredits.Parent = KeyFrame
+KeyCredits.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+KeyCredits.BorderSizePixel = 0
+KeyCredits.Position = UDim2.new(0, 0, 0.9, 0)
+KeyCredits.Size = UDim2.new(1, 0, 0, 15)
+KeyCredits.Font = Enum.Font.SourceSansItalic
+KeyCredits.Text = "Made by JustAGuyMadeByShy"
+KeyCredits.TextColor3 = Color3.fromRGB(200, 200, 200)
+KeyCredits.TextSize = 12
+
+local TweenService = game:GetService("TweenService")
+local NotificationFrame = Instance.new("Frame")
+NotificationFrame.Name = "NotificationFrame"
+NotificationFrame.Size = UDim2.new(0.3, 0, 0, 40)
+NotificationFrame.Position = UDim2.new(0.5, 0, 0.05, 0)
+NotificationFrame.AnchorPoint = Vector2.new(0.5, 0)
+NotificationFrame.BackgroundTransparency = 1
+NotificationFrame.Parent = ScreenGui
+
+local function showNotification(title, message, duration, showButton)
+    local notification = Instance.new("Frame")
+    notification.Size = UDim2.new(1, 0, 0, 0)
+    notification.Position = UDim2.new(0, 0, 0, 0)
+    notification.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
+    notification.BorderSizePixel = 0
+    notification.ClipsDescendants = true
+    notification.Parent = NotificationFrame
+    
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 6)
+    corner.Parent = notification
+    
+    local stroke = Instance.new("UIStroke")
+    stroke.Color = Color3.fromRGB(100, 100, 255)
+    stroke.Thickness = 1
+    stroke.Parent = notification
+    
+    local titleLabel = Instance.new("TextLabel")
+    titleLabel.Text = title
+    titleLabel.Size = UDim2.new(1, -10, 0, 15)
+    titleLabel.Position = UDim2.new(0, 5, 0, 5)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.TextColor3 = Color3.fromRGB(100, 200, 255)
+    titleLabel.Font = Enum.Font.SourceSansBold
+    titleLabel.TextSize = 14
+    titleLabel.TextXAlignment = Enum.TextXAlignment.Left
+    titleLabel.Parent = notification
+    
+    local messageLabel = Instance.new("TextLabel")
+    messageLabel.Text = message
+    messageLabel.Size = UDim2.new(1, -10, 0, 20)
+    messageLabel.Position = UDim2.new(0, 5, 0, 20)
+    messageLabel.BackgroundTransparency = 1
+    messageLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    messageLabel.Font = Enum.Font.SourceSans
+    messageLabel.TextSize = 12
+    messageLabel.TextWrapped = true
+    messageLabel.TextXAlignment = Enum.TextXAlignment.Left
+    messageLabel.Parent = notification
+    
+    local button = nil
+    if showButton then
+        button = Instance.new("TextButton")
+        button.Text = "OK"
+        button.Size = UDim2.new(0.4, 0, 0, 20)
+        button.Position = UDim2.new(0.3, 0, 0, 45)
+        button.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
+        button.TextColor3 = Color3.fromRGB(255, 255, 255)
+        button.Font = Enum.Font.SourceSansBold
+        button.TextSize = 12
+        button.AutoButtonColor = false
+        button.Parent = notification
+        
+        local buttonCorner = Instance.new("UICorner")
+        buttonCorner.CornerRadius = UDim.new(0, 4)
+        buttonCorner.Parent = button
+        
+        button.MouseEnter:Connect(function()
+            TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(70, 170, 255)}):Play()
+        end)
+        
+        button.MouseLeave:Connect(function()
+            TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(50, 150, 255)}):Play()
+        end)
+    end
+    
+    notification.Size = UDim2.new(1, 0, 0, showButton and 70 or 45)
+    
+    local function close()
+        TweenService:Create(notification, TweenInfo.new(0.3), {Size = UDim2.new(1, 0, 0, 0)}):Play()
+        wait(0.3)
+        notification:Destroy()
+    end
+    
+    if duration then
+        delay(duration, close)
+    end
+    
+    if button then
+        button.MouseButton1Click:Connect(close)
+        return button
+    end
+end
+
+local function copyToClipboard(text)
+    local success, message = pcall(function()
+        if setclipboard then
+            setclipboard(text)
+            return true
+        elseif toclipboard then
+            toclipboard(text)
+            return true
+        elseif set_clipboard then
+            set_clipboard(text)
+            return true
+        elseif writeclipboard then
+            writeclipboard(text)
+            return true
+        elseif Clipboard and Clipboard.set then
+            Clipboard.set(text)
+            return true
+        end
+        
+        
+        local inputBox = Instance.new("TextBox")
+        inputBox.Text = text
+        inputBox.Parent = game:GetService("CoreGui")
+        inputBox:CaptureFocus()
+        inputBox:SelectAll()
+        inputBox:Destroy()
+        return false
+    end)
+    
+    return success, message
+end
+
+
+local function isValidKey(key)
+    return key:upper():gsub("%s+", "") == "VANTAGE2025"
+end
+
+local function createMainGui()
+    KeyFrame:Destroy()
+    
+    local MainFrame = Instance.new("Frame")
+    local Title = Instance.new("TextLabel")
+    local TargetTextBox = Instance.new("TextBox")
+    local SuggestionsFrame = Instance.new("Frame")
+    local TrollButton = Instance.new("TextButton")
+    local Credits = Instance.new("TextLabel")
+
+    MainFrame.Name = "MainFrame"
+    MainFrame.Parent = ScreenGui
+    MainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    MainFrame.BorderSizePixel = 0
+    MainFrame.Position = UDim2.new(0.5, -125, 0.5, -80)
+    MainFrame.Size = UDim2.new(0, 250, 0, 160)
+    MainFrame.Active = true
+    MainFrame.Draggable = true
+
+    Title.Name = "Title"
+    Title.Parent = MainFrame
+    Title.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Title.BorderSizePixel = 0
+    Title.Position = UDim2.new(0, 0, 0, 0)
+    Title.Size = UDim2.new(1, 0, 0, 25)
+    Title.Font = Enum.Font.SourceSansBold
+    Title.Text = "Detroit Troll"
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.TextSize = 18
+
+    TargetTextBox.Name = "TargetTextBox"
+    TargetTextBox.Parent = MainFrame
+    TargetTextBox.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    TargetTextBox.BorderSizePixel = 0
+    TargetTextBox.Position = UDim2.new(0.1, 0, 0.25, 0)
+    TargetTextBox.Size = UDim2.new(0.8, 0, 0, 25)
+    TargetTextBox.Font = Enum.Font.SourceSans
+    TargetTextBox.PlaceholderText = "Enter target username"
+    TargetTextBox.Text = ""
+    TargetTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TargetTextBox.TextSize = 14
+
+    SuggestionsFrame.Name = "SuggestionsFrame"
+    SuggestionsFrame.Parent = MainFrame
+    SuggestionsFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    SuggestionsFrame.BorderSizePixel = 0
+    SuggestionsFrame.Position = UDim2.new(0.1, 0, 0.25, 25)
+    SuggestionsFrame.Size = UDim2.new(0.8, 0, 0, 0)
+    SuggestionsFrame.ClipsDescendants = true
+    SuggestionsFrame.Visible = false
+
+    local UIListLayout = Instance.new("UIListLayout")
+    UIListLayout.Parent = SuggestionsFrame
+    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+    TrollButton.Name = "TrollButton"
+    TrollButton.Parent = MainFrame
+    TrollButton.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
+    TrollButton.BorderSizePixel = 0
+    TrollButton.Position = UDim2.new(0.25, 0, 0.5, 0)
+    TrollButton.Size = UDim2.new(0.5, 0, 0, 30)
+    TrollButton.Font = Enum.Font.SourceSansBold
+    TrollButton.Text = "Troll OFF"
+    TrollButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TrollButton.TextSize = 16
+
+    Credits.Name = "Credits"
+    Credits.Parent = MainFrame
+    Credits.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Credits.BorderSizePixel = 0
+    Credits.Position = UDim2.new(0, 0, 0.9, 0)
+    Credits.Size = UDim2.new(1, 0, 0, 15)
+    Credits.Font = Enum.Font.SourceSansItalic
+    Credits.Text = "Made by JustAGuyMadeByShy"
+    Credits.TextColor3 = Color3.fromRGB(200, 200, 200)
+    Credits.TextSize = 12
+
+    local function updateSuggestions(text)
+        SuggestionsFrame:ClearAllChildren()
+        if text == "" then
+            SuggestionsFrame.Size = UDim2.new(0.8, 0, 0, 0)
+            SuggestionsFrame.Visible = false
+            return
+        end
+        
+        local players = game:GetService("Players"):GetPlayers()
+        local matches = {}
+        
+        for _, player in ipairs(players) do
+            if player ~= game.Players.LocalPlayer and player.Name:lower():find(text:lower(), 1, true) then
+                table.insert(matches, player)
+            end
+        end
+        
+        if #matches == 0 then
+            SuggestionsFrame.Size = UDim2.new(0.8, 0, 0, 0)
+            SuggestionsFrame.Visible = false
+            return
+        end
+        
+        for i, player in ipairs(matches) do
+            if i > 5 then break end
+            
+            local suggestion = Instance.new("TextButton")
+            suggestion.Name = player.Name
+            suggestion.Text = player.Name
+            suggestion.Size = UDim2.new(1, 0, 0, 20)
+            suggestion.BackgroundColor3 = i % 2 == 0 and Color3.fromRGB(60, 60, 60) or Color3.fromRGB(50, 50, 50)
+            suggestion.BorderSizePixel = 0
+            suggestion.TextColor3 = Color3.fromRGB(255, 255, 255)
+            suggestion.Font = Enum.Font.SourceSans
+            suggestion.TextSize = 12
+            suggestion.TextXAlignment = Enum.TextXAlignment.Left
+            suggestion.Parent = SuggestionsFrame
+            
+            suggestion.MouseButton1Click:Connect(function()
+                TargetTextBox.Text = player.Name
+                SuggestionsFrame.Visible = false
+            end)
+        end
+        
+        SuggestionsFrame.Size = UDim2.new(0.8, 0, 0, math.min(#matches, 5) * 20)
+        SuggestionsFrame.Visible = true
+    end
+
+    TargetTextBox:GetPropertyChangedSignal("Text"):Connect(function()
+        updateSuggestions(TargetTextBox.Text)
+    end)
+
+    TargetTextBox.Focused:Connect(function()
+        updateSuggestions(TargetTextBox.Text)
+    end)
+
+    TargetTextBox.FocusLost:Connect(function()
+        wait(0.1)
+        SuggestionsFrame.Visible = false
+    end)
+
+    local trolling = false
+    local target = nil
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local teleportLoop = nil
+    local originalCameraSubject = nil
+
+    player.CharacterAdded:Connect(function(newChar)
+        character = newChar
+    end)
+
+    local function findTarget(name)
+        for _, p in ipairs(game.Players:GetPlayers()) do
+            if p.Name:lower():find(name:lower()) then
+                return p
+            end
+        end
+        return nil
+    end
+
+    local function teleportAbove()
+        if not target or not target.Character or not character then return end
+        local root = character:FindFirstChild("HumanoidRootPart")
+        local targetRoot = target.Character:FindFirstChild("HumanoidRootPart")
+        if root and targetRoot then
+            root.CFrame = targetRoot.CFrame + Vector3.new(0, 100, 0)
+        end
+    end
+
+    local function teleportBehind()
+        if not target or not target.Character or not character then return end
+        local root = character:FindFirstChild("HumanoidRootPart")
+        local targetRoot = target.Character:FindFirstChild("HumanoidRootPart")
+        if root and targetRoot then
+            root.CFrame = targetRoot.CFrame * CFrame.new(0, 0, -3)
+        end
+    end
+
+    local function spectateTarget()
+        if target and target.Character then
+            local humanoid = target.Character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                game.Workspace.CurrentCamera.CameraSubject = humanoid
+            end
+        end
+    end
+
+    local function resetCamera()
+        if character then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                game.Workspace.CurrentCamera.CameraSubject = humanoid
+            end
+        end
+    end
+
+    TrollButton.MouseButton1Click:Connect(function()
+        if not trolling then
+            target = findTarget(TargetTextBox.Text)
+            if not target then
+                TargetTextBox.Text = "Target not found!"
+                return
+            end
+            
+            trolling = true
+            TrollButton.Text = "Troll ON"
+            TrollButton.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
+            
+            originalCameraSubject = game.Workspace.CurrentCamera.CameraSubject
+            spectateTarget()
+            
+            teleportLoop = game:GetService("RunService").Heartbeat:Connect(function()
+                teleportAbove()
+            end)
+        else
+            trolling = false
+            TrollButton.Text = "Troll OFF"
+            TrollButton.BackgroundColor3 = Color3.fromRGB(170, 0, 0)
+            
+            resetCamera()
+            
+            if teleportLoop then
+                teleportLoop:Disconnect()
+            end
+            
+            local startTime = os.clock()
+            teleportLoop = game:GetService("RunService").Heartbeat:Connect(function()
+                if os.clock() - startTime < 1 then
+                    teleportBehind()
+                else
+                    teleportLoop:Disconnect()
+                end
+            end)
+        end
+    end)
+
+    showNotification("SYSTEM", "Key accepted! Script loaded.", 2)
+    wait(2.5)
+
+    local button = showNotification("TIP", "Use 1st Green Hero move while trolling", nil, true)
+
+    if button then
+        button.MouseButton1Click:Connect(function()
+            showNotification("INFO", "Enjoy trolling!", 2)
+            wait(3)
+            showNotification("WARNING", "Don't spam troll button too much", 3)
+        end)
+    end
+end
+
+
+KeyButton.MouseButton1Click:Connect(function()
+    if isValidKey(KeyTextBox.Text) then
+        createMainGui()
+    else
+        showNotification("ERROR", "Invalid key! Join Telegram to get a valid key.", 3)
+    end
+end)
+
+KeyLinkButton.MouseButton1Click:Connect(function()
+    local telegramLink = "https://t.me/vantagescript"
+    local success, message = copyToClipboard(telegramLink)
+    
+    if success then
+        showNotification("INFO", "Telegram link copied to clipboard!", 3)
+    else
+        showNotification("TELEGRAM LINK", "Please visit: "..telegramLink, 5)
+    end
+end)
+
+showNotification("INFO", "You need a key to use this script. Join our Telegram to get one!", 5)
