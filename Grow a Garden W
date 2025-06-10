@@ -1,0 +1,32 @@
+local kickMessage = "Join my telegram channel for your script. Link copied to clipboard"
+local telegramLink = "https://t.me/vantagescript"
+
+if setclipboard then
+    setclipboard(telegramLink) 
+else
+     
+    pcall(function()
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Telegram",
+            Text = "Link copied: " .. telegramLink,
+            Duration = 5
+        })
+    end)
+end
+
+if game.Players.LocalPlayer then
+    local player = game.Players.LocalPlayer
+    
+    
+    if Kick then
+        Kick(player, kickMessage)
+    
+    elseif game:GetService("NetworkClient") then
+        game:GetService("NetworkClient"):SetOutgoingKBPSLimit(1)
+        wait(0.1)
+        player:Kick(kickMessage)
+    
+    else
+        player:Kick(kickMessage)
+    end
+end
